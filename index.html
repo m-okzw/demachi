@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>出町柳 散策 ２０２６</title>
+  <meta name="description" content="出町柳周辺の気になるスポットをまとめた、個人的なおでかけ提案サイト。">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500&family=Noto+Sans+JP:wght@400&family=Nixie+One&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       CSS カスタムプロパティ（カラー・フォント定義）
+    ============================================================ */
+    :root {
+      --deep-green: #1D454D;
+      --beige: #C8A087;
+      --terracotta: #C15023;
+      --white: #FFFFFF;
+      --light-bg: #FAF8F5;
+
+      --font-heading: 'Zen Kaku Gothic New', sans-serif;
+      --font-body: 'Noto Sans JP', sans-serif;
+      --font-en: 'Nixie One', serif;
+    }
+
+    /* ============================================================
+       リセット・ベース
+    ============================================================ */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--white);
+      color: var(--deep-green);
+      font-family: var(--font-body);
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ============================================================
+       ファーストビュー（FV）スライダー
+       モバイル：横4:縦5・object-fit contain（トリミングなし）
+       PC     ：横2:縦3・object-fit cover（中央トリミング）
+    ============================================================ */
+    .fv {
+      position: relative;
+      width: 100%;
+      background: #111;
+      overflow: hidden;
+      aspect-ratio: 4 / 5;
+      /* モバイル */
+    }
+
+    @media (min-width: 768px) {
+      .fv {
+        aspect-ratio: 2 / 3;
+        max-width: 480px;
+        margin: 0 auto;
+      }
+    }
+
+    .slider {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.9s ease;
+      pointer-events: none;
+    }
+
+    .slide.is-active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* モバイル：トリミングなし・縦横比維持 */
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+    }
+
+    /* PC：縦長領域・中央基準でトリミング */
+    @media (min-width: 768px) {
+      .slide img {
+        object-fit: cover;
+      }
+    }
+
+    /* FVテキスト画像（透明PNG・常時表示・別レイヤー） */
+    .fv-text-wrap {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 25%;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .fv-text {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      background: transparent;
+      opacity: 1;
+    }
+
+    /* ナビゲーションドット */
+    .slider-dots {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+
+    .slider-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+      padding: 0;
+    }
+
+    .slider-dot.is-active {
+      background: var(--white);
+    }
+
+    /* ============================================================
+       天気セクション
+    ============================================================ */
+    .weather-section {
+      padding: 52px 20px 44px;
+      background: var(--light-bg);
+    }
+
+    .weather-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .weather-title-en {
+      font-family: var(--font-en);
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      color: var(--beige);
+      display: block;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .weather-title-ja {
+      font-family: var(--font-heading);
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--deep-green);
+      letter-spacing: 0.1em;
+      display: block;
+    }
+
+    /* カードグリッド：スマホ縦並び・PC横並び */
+    .weather-cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    @media (min-width: 560px) {
+      .weather-cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* 各天気カード */
+    .weather-card {
+      background: var(--white);
+      border: 1px solid var(--deep-green);
+      padding: 24px;
+      /* 紙を重ねたような影（他カードと統一） */
+      box-shadow: 3px 4px 0 rgba(29, 69, 77, 0.06), 6px 7px 0 rgba(29, 69, 77, 0.03);
+    }
+
+    /* 日付ラベル */
+    .wc-date {
+      font-family: var(--font-en);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--beige);
+      display: block;
+      margin-bottom: 14px;
+    }
+
+    .wc-dow {
+      font-family: var(--font-heading);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--beige);
+    }
+
+    /* アイコン＋天気名 */
+    .wc-main {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .wc-icon {
+      font-size: 30px;
+      line-height: 1;
+    }
+
+    .wc-label {
+      font-family: var(--font-heading);
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--deep-green);
+    }
+
+    /* 気温 */
+    .wc-temps {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .wc-temp-tag {
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: var(--beige);
+    }
+
+    .wc-temp-max {
+      font-family: var(--font-en);
+      font-size: 22px;
+      color: var(--terracotta);
+      letter-spacing: 0.02em;
+    }
+
+    .wc-temp-min {
+      font-family: var(--font-en);
+      font-size: 22px;
+      color: #7BADB7;
+      letter-spacing: 0.02em;
+    }
+
+    .wc-temp-unit {
+      font-size: 11px;
+      letter-spacing: 0;
+    }
+
+    .wc-sep {
+      font-size: 16px;
+      color: #ddd;
+      line-height: 1.6;
+    }
+
+    /* 降水確率 */
+    .wc-rain {
+      font-size: 12px;
+      color: #6a8f96;
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+    }
+
+    /* 一言コメント */
+    .wc-comment {
+      font-size: 12px;
+      line-height: 1.65;
+      color: var(--deep-green);
+      border-top: 1px solid rgba(29, 69, 77, 0.1);
+      padding-top: 12px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ローディング・エラー表示 */
+    .weather-loading,
+    .weather-error,
+    .weather-nodata {
+      text-align: center;
+      padding: 28px 20px;
+      color: var(--beige);
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      border: 1px dashed rgba(200, 160, 135, 0.5);
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .weather-loading::before {
+      content: "⏳　";
+    }
+
+    /* ============================================================
+       導入テキスト
+    ============================================================ */
+    .intro {
+      text-align: center;
+      padding: 72px 24px 64px;
+    }
+
+    .intro-en {
+      font-family: var(--font-en);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--beige);
+      margin-bottom: 28px;
+      text-transform: uppercase;
+    }
+
+    .intro-text {
+      font-family: var(--font-heading);
+      font-weight: 500;
+      font-size: clamp(17px, 4.5vw, 21px);
+      letter-spacing: 0.06em;
+      line-height: 2.1;
+      color: var(--deep-green);
+    }
+
+    .intro-sub {
+      margin-top: 20px;
+      font-size: 14px;
+      color: var(--beige);
+      letter-spacing: 0.08em;
+    }
+
+    /* 区切り線 */
+    .divider {
+      width: 40px;
+      height: 1px;
+      background: var(--beige);
+      margin: 0 auto;
+    }
+
+    /* ============================================================
+       セクション共通
+    ============================================================ */
+    .section {
+      padding: 64px 20px 80px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-label {
+      font-family: var(--font-en);
+      font-size: 28px;
+      letter-spacing: 0.12em;
+      color: var(--deep-green);
+      display: block;
+      margin-bottom: -13px;
+    }
+
+    .section-label-ja {
+      font-size: 11px;
+      color: var(--beige);
+      letter-spacing: 0.15em;
+    }
+
+    /* ============================================================
+       カードグリッド
+    ============================================================ */
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    @media (min-width: 640px) {
+      .cards-double {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* ============================================================
+       スポットカード
+    ============================================================ */
+    .card {
+      border: 1px solid var(--deep-green);
+      border-radius: 0;
+      background: var(--white);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 3px 4px 0 rgba(29, 69, 77, 0.06), 6px 7px 0 rgba(29, 69, 77, 0.03);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 4px 10px 24px rgba(29, 69, 77, 0.12), 8px 14px 4px rgba(29, 69, 77, 0.04);
+    }
+
+    .card-category {
+      font-family: var(--font-heading);
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      color: var(--white);
+      background: var(--deep-green);
+      display: inline-block;
+      padding: 4px 12px;
+      margin: 20px 0 0 20px;
+    }
+
+    .card-title {
+      font-family: var(--font-heading);
+      font-weight: 500;
+      font-size: clamp(18px, 4vw, 22px);
+      letter-spacing: 0.05em;
+      color: var(--deep-green);
+      padding: 10px 20px 16px;
+    }
+
+    /* カード画像：横3:縦2 */
+    .card-img-wrap {
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      overflow: hidden;
+    }
+
+    .card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.5s ease;
+    }
+
+    .card:hover .card-img-wrap img {
+      transform: scale(1.03);
+    }
+
+    .card-body {
+      padding: 20px 20px 24px;
+    }
+
+    .card-desc {
+      font-size: 13.5px;
+      line-height: 1.85;
+      color: #3a6068;
+      margin-bottom: 16px;
+    }
+
+    .card-comment-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-heading);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--terracotta);
+      margin-bottom: 6px;
+    }
+
+    .card-comment-label svg {
+      flex-shrink: 0;
+    }
+
+    .card-comment {
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--deep-green);
+      background: var(--light-bg);
+      border-left: 2px solid var(--beige);
+      padding: 10px 14px;
+      border-radius: 0 4px 4px 0;
+      margin-bottom: 20px;
+    }
+
+    .card-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      padding: 8px 16px;
+      cursor: pointer;
+      border-radius: 20px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-map {
+      background: var(--white);
+      border: 1px solid var(--terracotta);
+      color: var(--terracotta);
+    }
+
+    .btn-insta {
+      background: var(--white);
+      border: 1px solid var(--deep-green);
+      color: var(--deep-green);
+    }
+
+    /* ============================================================
+       フッター
+    ============================================================ */
+    footer {
+      text-align: center;
+      padding: 64px 24px 48px;
+      border-top: 1px solid rgba(29, 69, 77, 0.12);
+    }
+
+    .footer-en {
+      font-family: var(--font-en);
+      font-size: 18px;
+      letter-spacing: 0.12em;
+      color: var(--deep-green);
+      margin-bottom: 12px;
+    }
+
+    .footer-ja {
+      font-size: 13px;
+      color: var(--beige);
+      letter-spacing: 0.1em;
+    }
+
+    .footer-mark {
+      display: block;
+      width: 1px;
+      height: 32px;
+      background: var(--beige);
+      margin: 20px auto 0;
+    }
+
+    /* ============================================================
+       アクセシビリティ
+    ============================================================ */
+    :focus-visible {
+      outline: 2px solid var(--terracotta);
+      outline-offset: 3px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================================
+       ファーストビュー：画像スライダー
+       モバイル：aspect-ratio 4/5・object-fit contain（トリミングなし）
+       PC　　 ：aspect-ratio 2/3・object-fit cover（中央トリミング）
+  ============================================================ -->
+  <section class="fv" aria-label="ファーストビュー">
+    <div class="slider" id="slider">
+
+      <div class="slide is-active" aria-hidden="false">
+        <img src="fv_image_1.jpg" alt="京都の風景 1">
+      </div>
+      <div class="slide" aria-hidden="true">
+        <img src="fv_image_2.jpg" alt="京都の風景 2">
+      </div>
+      <div class="slide" aria-hidden="true">
+        <img src="fv_image_3.jpg" alt="京都の風景 3">
+      </div>
+      <div class="slide" aria-hidden="true">
+        <img src="fv_image_4.jpg" alt="京都の風景 4">
+      </div>
+
+      <!-- FVテキスト画像：スライダーとは別レイヤーで常時表示 -->
+      <div class="fv-text-wrap" aria-hidden="true">
+        <img src="fv_text.png" alt="出町柳 散策 二〇二六" class="fv-text">
+      </div>
+
+      <div class="slider-dots" role="tablist" aria-label="スライド切り替え">
+        <button class="slider-dot is-active" role="tab" aria-selected="true" aria-label="スライド 1"
+          data-index="0"></button>
+        <button class="slider-dot" role="tab" aria-selected="false" aria-label="スライド 2" data-index="1"></button>
+        <button class="slider-dot" role="tab" aria-selected="false" aria-label="スライド 3" data-index="2"></button>
+        <button class="slider-dot" role="tab" aria-selected="false" aria-label="スライド 4" data-index="3"></button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       天気セクション
+       気象庁 API から自動取得。tripDates を書き換えれば日程変更に対応。
+  ============================================================ -->
+  <div class="weather-section" aria-label="京都の天気予報">
+    <div class="weather-header">
+      <span class="weather-title-en">Kyoto Weather</span>
+      <span class="weather-title-ja">京都の天気</span>
+    </div>
+    <!-- JS でカードを挿入 -->
+    <div id="weatherContainer">
+      <div class="weather-loading">天気予報を取得しています…</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       導入テキスト
+  ============================================================ -->
+  <div class="intro" aria-label="はじめに">
+    <p class="intro-en">Demachiyanagiⅼⅼ Stroll</p>
+    <div class="divider" style="margin-bottom:28px;"></div>
+    <p class="intro-text">
+      一旦出町柳周辺で気になってる場所を集めてみた！<br>
+      ゆるっとお出かけ楽しみ〜！
+    </p>
+    <p class="intro-sub">— 次のお出かけのしおり —</p>
+  </div>
+
+
+  <!-- ============================================================
+       Cafe セクション
+  ============================================================ -->
+  <section class="section" aria-labelledby="sec-cafe">
+    <div class="section-header">
+      <span class="section-label" id="sec-cafe">Cafe</span>
+      <span class="section-label-ja">カフェ</span>
+    </div>
+    <div class="cards">
+
+      <article class="card" aria-label="Coffee Base NASHINOKI">
+        <span class="card-category">Cafe</span>
+        <h2 class="card-title">Coffee Base NASHINOKI</h2>
+        <div class="card-img-wrap">
+          <img src="coffee_base_nashinoki.JPG" alt="Coffee Base NASHINOKI の外観" loading="lazy">
+        </div>
+        <div class="card-body">
+          <p class="card-desc">
+            神社の境内にある人気カフェ。<br>
+            自然に囲まれた静かな空間でゆったり過ごせそう。
+          </p>
+          <div class="card-comment-label">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M2 2h12v9H9l-3 3v-3H2z" stroke="#C15023" stroke-width="1.2" fill="none"
+                stroke-linejoin="round" />
+            </svg>
+            ひとこと
+          </div>
+          <p class="card-comment">神社の中にあるカフェ、雰囲気がとてもよさそうで気になる！！</p>
+          <div class="card-buttons">
+            <a class="btn btn-map" href="#" id="map-nashinoki" target="_blank" rel="noopener noreferrer">📍 Google
+              Map</a>
+            <a class="btn btn-insta" href="#" id="insta-nashinoki" target="_blank" rel="noopener noreferrer">📷
+              Instagram</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" aria-label="手作りあんみつ みつばち">
+        <span class="card-category">Cafe</span>
+        <h2 class="card-title">手作りあんみつ みつばち</h2>
+        <div class="card-img-wrap">
+          <img src="mitsubachi.JPG" alt="手作りあんみつ みつばち の暖簾" loading="lazy">
+        </div>
+        <div class="card-body">
+          <p class="card-desc">
+            京都で人気の甘味処。<br>
+            手作りあんみつが楽しめるお店。
+          </p>
+          <div class="card-comment-label">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M2 2h12v9H9l-3 3v-3H2z" stroke="#C15023" stroke-width="1.2" fill="none"
+                stroke-linejoin="round" />
+            </svg>
+            ひとこと
+          </div>
+          <p class="card-comment">なんか京都であんみつってよくない？笑</p>
+          <div class="card-buttons">
+            <a class="btn btn-map" href="#" id="map-mitsubachi" target="_blank" rel="noopener noreferrer">📍 Google
+              Map</a>
+            <a class="btn btn-insta" href="#" id="insta-mitsubachi" target="_blank" rel="noopener noreferrer">📷
+              Instagram</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       Souvenir セクション
+  ============================================================ -->
+  <section class="section" style="background: var(--light-bg);" aria-labelledby="sec-souvenir">
+    <div class="section-header">
+      <span class="section-label" id="sec-souvenir">Souvenir</span>
+      <span class="section-label-ja">おみやげ</span>
+    </div>
+    <div class="cards">
+
+      <article class="card" aria-label="出町ふたば">
+        <span class="card-category">Souvenir</span>
+        <h2 class="card-title">出町ふたば</h2>
+        <div class="card-img-wrap">
+          <img src="futaba.JPG" alt="出町ふたばの豆大福" loading="lazy">
+        </div>
+        <div class="card-body">
+          <p class="card-desc">
+            京都の老舗和菓子店。<br>
+            豆大福が有名なお店。
+          </p>
+          <div class="card-comment-label">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M2 2h12v9H9l-3 3v-3H2z" stroke="#C15023" stroke-width="1.2" fill="none"
+                stroke-linejoin="round" />
+            </svg>
+            ひとこと
+          </div>
+          <p class="card-comment">めっちゃ人気の和菓子屋さん。豆大福が有名なのかな？めっちゃ並ぶけど1回行ってみたいんだよね〜</p>
+          <div class="card-buttons">
+            <a class="btn btn-map" href="#" id="map-futaba" target="_blank" rel="noopener noreferrer">📍 Google Map</a>
+            <a class="btn btn-insta" href="#" id="insta-futaba" target="_blank" rel="noopener noreferrer">📷
+              Instagram</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       Stroll セクション
+  ============================================================ -->
+  <section class="section" aria-labelledby="sec-stroll">
+    <div class="section-header">
+      <span class="section-label" id="sec-stroll">Stroll</span>
+      <span class="section-label-ja">さんぽ</span>
+    </div>
+    <div class="cards cards-double">
+
+      <article class="card" aria-label="京都御所">
+        <span class="card-category">Stroll</span>
+        <h2 class="card-title">京都御所</h2>
+        <div class="card-img-wrap">
+          <img src="gosho.JPG" alt="京都御所の庭園" loading="lazy">
+        </div>
+        <div class="card-body">
+          <p class="card-desc">広々とした庭園と歴史ある景観が楽しめるスポット。散歩にぴったり。</p>
+          <div class="card-comment-label">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M2 2h12v9H9l-3 3v-3H2z" stroke="#C15023" stroke-width="1.2" fill="none"
+                stroke-linejoin="round" />
+            </svg>
+            ひとこと
+          </div>
+          <p class="card-comment">近いし散歩によさそう、一回行ってみたかった！</p>
+          <div class="card-buttons">
+            <a class="btn btn-map" href="#" id="map-gosho" target="_blank" rel="noopener noreferrer">📍 Google Map</a>
+            <a class="btn btn-insta" href="#" id="insta-gosho" target="_blank" rel="noopener noreferrer">📷
+              Instagram</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" aria-label="糺の森・下鴨神社">
+        <span class="card-category">Stroll</span>
+        <h2 class="card-title">糺の森・下鴨神社</h2>
+        <div class="card-img-wrap">
+          <img src="shimogamo.JPG" alt="糺の森の参道" loading="lazy">
+        </div>
+        <div class="card-body">
+          <p class="card-desc">自然豊かな参道と歴史ある神社が楽しめるスポット。</p>
+          <div class="card-comment-label">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M2 2h12v9H9l-3 3v-3H2z" stroke="#C15023" stroke-width="1.2" fill="none"
+                stroke-linejoin="round" />
+            </svg>
+            ひとこと
+          </div>
+          <p class="card-comment">鴨川から上に上がるのもありだね！</p>
+          <div class="card-buttons">
+            <a class="btn btn-map" href="#" id="map-shimogamo" target="_blank" rel="noopener noreferrer">📍 Google
+              Map</a>
+            <a class="btn btn-insta" href="#" id="insta-shimogamo" target="_blank" rel="noopener noreferrer">📷
+              Instagram</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       Omake セクション
+  ============================================================ -->
+  <section class="section" style="background: var(--light-bg);" aria-labelledby="sec-omake">
+    <div class="section-header">
+      <span class="section-label" id="sec-omake">Omake</span>
+      <span class="section-label-ja">おまけ</span>
+    </div>
+    <div class="cards">
+
+      <article class="card" aria-label="魏飯餃子">
+        <span class="card-category">Omake</span>
+        <h2 class="card-title">魏飯餃子</h2>
+        <div class="card-img-wrap">
+          <img src="giihangyoza.jpg" alt="魏飯餃子の焼き餃子" loading="lazy">
+        </div>
+        <div class="card-body">
+          <p class="card-desc">
+            京都らしい雰囲気の中で楽しめる中華料理店。<br>
+            餃子が人気のお店で、夜ごはん候補として気になるスポット。
+          </p>
+          <div class="card-comment-label">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M2 2h12v9H9l-3 3v-3H2z" stroke="#C15023" stroke-width="1.2" fill="none"
+                stroke-linejoin="round" />
+            </svg>
+            ひとこと
+          </div>
+          <p class="card-comment">出町柳からは離れるけど、餃子のおいしそうなお店発見しました…🫣</p>
+          <div class="card-buttons">
+            <a class="btn btn-map" href="#" id="map-giihan" target="_blank" rel="noopener noreferrer">📍 Google Map</a>
+            <a class="btn btn-insta" href="#" id="insta-giihan" target="_blank" rel="noopener noreferrer">📷
+              Instagram</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       フッター
+  ============================================================ -->
+  <footer>
+    <p class="footer-en">Let's enjoy Kyoto ☺︎</p>
+    <p class="footer-ja">どこ行くか考える時間も楽しい！</p>
+    <span class="footer-mark" aria-hidden="true"></span>
+  </footer>
+
+
+  <!-- ============================================================
+       JavaScript
+  ============================================================ -->
+  <script>
+    /* ==========================================================
+       ★ 旅行日程（ここを書き換えれば天気表示日が自動更新されます）
+       フォーマット：'YYYY-MM-DD'
+    ========================================================== */
+    const tripDates = [
+      '2026-06-21',
+      '2026-06-22'
+    ];
+
+    /* ==========================================================
+       ★ 各スポットのリンク（ここを編集してください）
+    ========================================================== */
+    const links = {
+      coffeeBase: {
+        map: "https://maps.google.com/maps?q=Coffee+Base+NASHINOKI+梨木神社",
+        instagram: "https://www.instagram.com/coffeebase.nashinoki/"
+      },
+      mitsubachi: {
+        map: "https://maps.google.com/maps?q=手作りあんみつ+みつばち+京都+出町柳",
+        instagram: "https://www.instagram.com/mitsubachi_kyoto/"
+      },
+      futaba: {
+        map: "https://maps.google.com/maps?q=出町ふたば+京都",
+        instagram: "https://www.instagram.com/demachifutaba_official/"
+      },
+      gosho: {
+        map: "https://maps.google.com/maps?q=京都御苑",
+        instagram: "https://www.instagram.com/kyoto_imperial_palace/"
+      },
+      shimogamo: {
+        map: "https://maps.google.com/maps?q=下鴨神社+糺の森",
+        instagram: "https://www.instagram.com/shimogamojinja/"
+      },
+      giihan: {
+        map: "https://maps.google.com/maps?q=魏飯餃子+京都+烏丸御池",
+        instagram: "https://www.instagram.com/gihan_gyoza/"
+      }
+    };
+
+    /* ==========================================================
+       天気アイコン・コメントの定義
+    ========================================================== */
+
+    /**
+     * 天気文字列からアイコン絵文字を返す。
+     * 複合パターン（「晴れ時々曇り」など）は最初にマッチした条件を優先。
+     */
+    function getWeatherIcon(weatherStr) {
+      if (!weatherStr) return '🌡️';
+      if (weatherStr.includes('雷')) return '⛈️';
+      if (weatherStr.includes('雪')) return '❄️';
+      if (weatherStr.includes('雨')) return '🌧️';
+      // 「晴れ時々曇り」「晴れのち曇り」など晴れと曇り両方含む場合
+      if (weatherStr.includes('晴') && weatherStr.includes('曇')) return '⛅️';
+      if (weatherStr.includes('晴')) return '☀️';
+      if (weatherStr.includes('曇')) return '☁️';
+      return '🌡️';
+    }
+
+    /**
+     * 天気文字列から一言コメントを返す。
+     */
+    function getWeatherComment(weatherStr) {
+      if (!weatherStr) return '';
+      if (weatherStr.includes('雷')) return '雷雨に注意！無理せず屋内スポットへ ⛈️';
+      if (weatherStr.includes('雪')) return '雪の京都もきれいだけど、足元に気をつけて ❄️';
+      if (weatherStr.includes('雨')) return '雨の日の京都も素敵かも 🌧️';
+      if (weatherStr.includes('晴') && weatherStr.includes('曇')) return '歩きやすそうな一日 ☺︎';
+      if (weatherStr.includes('晴')) return 'お散歩日和だね ☀️';
+      if (weatherStr.includes('曇')) return 'ゆったり巡るのにちょうどよさそう ☁️';
+      return 'いい旅になりますように 🌿';
+    }
+
+    /**
+     * 'YYYY-MM-DD' → '2026.06.20' 形式に変換
+     */
+    function formatDate(dateStr) {
+      return dateStr.replace(/-/g, '.');
+    }
+
+    /**
+     * 'YYYY-MM-DD' → 曜日（漢字）を返す
+     */
+    function getDayOfWeek(dateStr) {
+      const days = ['日', '月', '火', '水', '木', '金', '土'];
+      const d = new Date(dateStr + 'T00:00:00+09:00');
+      return days[d.getDay()];
+    }
+
+    /* ==========================================================
+       気象庁 API から天気予報を取得・描画
+       API: https://www.jma.go.jp/bosai/forecast/data/forecast/260000.json
+       対象エリア: 京都府南部（京都市含む）
+    ========================================================== */
+    async function fetchAndRenderWeather() {
+      const container = document.getElementById('weatherContainer');
+
+      try {
+        const res = await fetch(
+          'https://www.jma.go.jp/bosai/forecast/data/forecast/260000.json',
+          { cache: 'no-store' }
+        );
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+        const data = await res.json();
+
+        /*
+          気象庁JSON構造：
+          data[0] = 今日〜明後日ごろの概況（timeSeriesが複数）
+            timeSeriesには
+              [0] 天気・風・波：areaCode ごとに "weathers" 配列
+              [1] 降水確率：areaCode ごとに "pops" 配列
+              [2] 気温（最高・最低）
+          data[1] = 週間予報
+
+          京都府南部（京都市）の weatherArea コード：
+            timeDefines[0].areas の中から "京都" を探す
+        */
+
+        // ── 1. 天気・降水確率 (data[0].timeSeries[0], [1]) ──────────────
+        const series0 = data[0].timeSeries[0]; // 天気
+        const series1 = data[0].timeSeries[1]; // 降水確率
+        const series2 = data[0].timeSeries[2]; // 気温
+
+        // 京都市エリアを探す（weatherAreaCode: "260010" が「南部」= 京都市）
+        const KYOTO_WEATHER_CODE = '260010';
+        const KYOTO_TEMP_CODE = '61286'; // 京都（観測点）
+
+        // 天気エリア
+        const weatherArea = series0.areas.find(a => a.area.code === KYOTO_WEATHER_CODE);
+        // 降水確率エリア
+        const popArea = series1 ? series1.areas.find(a => a.area.code === KYOTO_WEATHER_CODE) : null;
+        // 気温エリア
+        const tempArea = series2 ? series2.areas.find(a => a.area.code === KYOTO_TEMP_CODE) : null;
+
+        if (!weatherArea) throw new Error('京都市の天気エリアが見つかりません');
+
+        // timeDefines は ISO 8601 形式（例："2026-06-20T00:00:00+09:00"）
+        const weatherTimes = series0.timeDefines.map(t => t.slice(0, 10)); // YYYY-MM-DD だけ抽出
+
+        // 降水確率の timeDefines（6時間ごとなど、日付が重複する場合がある）
+        // 日ごとに最初の値（00〜06時など）を使う or 最大値を代表として取る
+        const popByDate = {};
+        if (popArea && series1) {
+          series1.timeDefines.forEach((t, i) => {
+            const d = t.slice(0, 10);
+            const v = popArea.pops[i];
+            if (v === undefined || v === '' || v === null) return;
+            // 同じ日の最大降水確率を代表値とする
+            if (popByDate[d] === undefined || Number(v) > Number(popByDate[d])) {
+              popByDate[d] = v;
+            }
+          });
+        }
+
+        // 気温の timeDefines
+        const tempByDate = {};
+        if (tempArea && series2) {
+          series2.timeDefines.forEach((t, i) => {
+            const d = t.slice(0, 10);
+            const minVal = tempArea.temps ? tempArea.temps[i - 1] : undefined;
+            const maxVal = tempArea.temps ? tempArea.temps[i] : undefined;
+            if (!tempByDate[d]) tempByDate[d] = {};
+            if (minVal !== undefined && minVal !== '') tempByDate[d].min = minVal;
+            if (maxVal !== undefined && maxVal !== '') tempByDate[d].max = maxVal;
+
+          });
+        }
+
+        // ── 2. 週間予報からも気温・天気を補完 (data[1]) ──────────────
+        // data[1] が存在する場合、週間予報から不足日を補う
+        const weekSeries = data[1] ? data[1].timeSeries : null;
+        const weekWeatherByDate = {};
+        const weekTempByDate = {};
+
+        if (weekSeries) {
+          // 週間天気 (areas から "南部" を探す)
+          const ws0 = weekSeries[0];
+          if (ws0) {
+            const wArea = ws0.areas.find(a => a.area.code === KYOTO_WEATHER_CODE);
+            if (wArea) {
+              ws0.timeDefines.forEach((t, i) => {
+                const d = t.slice(0, 10);
+                const w = wArea.weatherCodes ? wArea.weatherCodes[i] : undefined;
+                if (w) weekWeatherByDate[d] = weatherCodeToText(w);
+              });
+            }
+          }
+          // 週間気温 (tempsMin/tempsMax)
+          const ws1 = weekSeries[1];
+          if (ws1) {
+            const tArea = ws1.areas.find(a => a.area.code === KYOTO_TEMP_CODE)
+              || ws1.areas.find(a => a.area.code === KYOTO_WEATHER_CODE);
+            if (tArea) {
+              ws1.timeDefines.forEach((t, i) => {
+                const d = t.slice(0, 10);
+                if (!weekTempByDate[d]) weekTempByDate[d] = {};
+                const mn = tArea.tempsMin ? tArea.tempsMin[i] : undefined;
+                const mx = tArea.tempsMax ? tArea.tempsMax[i] : undefined;
+                if (mn !== undefined && mn !== '') weekTempByDate[d].min = mn;
+                if (mx !== undefined && mx !== '') weekTempByDate[d].max = mx;
+              });
+            }
+          }
+        }
+
+        // ── 3. tripDates ごとにカードを生成 ──────────────────────────
+        const cards = tripDates.map(date => {
+          // 天気文字列の取得（今日〜明後日 → 週間予報の順でフォールバック）
+          const wIdx = weatherTimes.indexOf(date);
+          let weatherStr = (wIdx >= 0 && weatherArea.weathers[wIdx])
+            ? weatherArea.weathers[wIdx].replace(/\s+/g, '')
+            : (weekWeatherByDate[date] || null);
+
+          // 気温の取得
+          const temp = tempByDate[date] || weekTempByDate[date] || {};
+
+          // 降水確率
+          const pop = popByDate[date];
+
+          if (!weatherStr) {
+            // 対象日のデータなし
+            return `
+              <div class="weather-card" role="article" aria-label="${formatDate(date)}の天気">
+                <span class="wc-date">${formatDate(date)}<span class="wc-dow">（${getDayOfWeek(date)}）</span></span>
+                <p style="font-size:13px;color:var(--beige);letter-spacing:0.06em;margin-top:8px;">
+                  現在、対象日の天気予報は公開されていません。
+                </p>
+              </div>`;
+          }
+
+          const icon = getWeatherIcon(weatherStr);
+          const comment = getWeatherComment(weatherStr);
+
+          const maxStr = (temp.max !== undefined && temp.max !== '') ? `${temp.max}℃` : '—';
+          const minStr = (temp.min !== undefined && temp.min !== '') ? `${temp.min}℃` : '—';
+          const popStr = (pop !== undefined && pop !== '') ? `${pop}%` : '—';
+
+          return `
+            <div class="weather-card" role="article" aria-label="${formatDate(date)}の天気">
+              <span class="wc-date">${formatDate(date)}<span class="wc-dow">（${getDayOfWeek(date)}）</span></span>
+              <div class="wc-main">
+                <span class="wc-icon" aria-hidden="true">${icon}</span>
+                <span class="wc-label">${weatherStr}</span>
+              </div>
+              <div class="wc-temps">
+                <span class="wc-temp-tag">最高</span>
+                <span class="wc-temp-max">${maxStr}</span>
+                <span class="wc-sep">/</span>
+                <span class="wc-temp-tag">最低</span>
+                <span class="wc-temp-min">${minStr}</span>
+              </div>
+              <p class="wc-rain">☂ 降水確率　${popStr}</p>
+              <p class="wc-comment">${comment}</p>
+            </div>`;
+        });
+
+        // カードを描画
+        container.innerHTML = `<div class="weather-cards">${cards.join('')}</div>`;
+
+      } catch (err) {
+        console.error('[Weather] 取得エラー:', err);
+        container.innerHTML = `
+          <div class="weather-error">
+            天気予報の取得に失敗しました。<br>
+            <small style="display:block;margin-top:6px;font-size:11px;">
+              しばらくしてからページを再読み込みしてください。
+            </small>
+          </div>`;
+      }
+    }
+
+    /**
+     * 気象庁の weatherCode（週間予報）を天気文字列に変換する簡易マッピング。
+     * 公式コードは https://www.jma.go.jp/bosai/common/const/weather_kind.json 参照。
+     */
+    function weatherCodeToText(code) {
+      const map = {
+        '100': '晴れ', '101': '晴れ時々曇り', '102': '晴れ一時雨', '103': '晴れ時々雨',
+        '104': '晴れ一時雪', '105': '晴れ時々雪', '110': '晴れのち曇り',
+        '111': '晴れのち曇り', '112': '晴れのち一時雨', '113': '晴れのち雨',
+        '114': '晴れのち一時雪', '115': '晴れのち雪',
+        '200': '曇り', '201': '曇り時々晴れ', '202': '曇り一時雨', '203': '曇り時々雨',
+        '204': '曇り一時雪', '205': '曇り時々雪', '206': '曇り一時雨か雪',
+        '207': '曇り時々雨か雪', '209': '霧', '210': '曇りのち晴れ',
+        '211': '曇りのち晴れ', '212': '曇りのち一時雨', '213': '曇りのち雨',
+        '214': '曇りのち一時雪', '215': '曇りのち雪', '217': '曇りのち雨か雪',
+        '300': '雨', '301': '雨時々晴れ', '302': '雨時々止む', '303': '雨時々雪',
+        '304': '雨か雪', '306': '大雨', '308': '雨で暴風を伴う',
+        '309': '雨一時雪', '311': '雨のち晴れ', '313': '雨のち曇り',
+        '314': '雨のち雪', '315': '雨のち雪', '316': '雨か雪のち晴れ',
+        '317': '雨か雪のち曇り',
+        '400': '雪', '401': '雪時々晴れ', '402': '雪時々止む', '403': '雪時々雨',
+        '405': '大雪', '409': '雪一時雨', '411': '雪のち晴れ',
+        '413': '雪のち曇り', '414': '雪のち雨',
+        '500': '雷雨', '501': '雷雨時々晴れ', '502': '雷雨時々曇り',
+        '503': '雷雨時々雪', '508': '激しい雷雨', '514': '雷雨を伴う雪',
+        '515': '雷雨を伴う大雪'
+      };
+      return map[String(code)] || `天気コード${code}`;
+    }
+
+    /* ==========================================================
+       ボタンへ URL をセット
+    ========================================================== */
+    function setLinks() {
+      const idMap = {
+        "map-nashinoki": links.coffeeBase.map,
+        "insta-nashinoki": links.coffeeBase.instagram,
+        "map-mitsubachi": links.mitsubachi.map,
+        "insta-mitsubachi": links.mitsubachi.instagram,
+        "map-futaba": links.futaba.map,
+        "insta-futaba": links.futaba.instagram,
+        "map-gosho": links.gosho.map,
+        "insta-gosho": links.gosho.instagram,
+        "map-shimogamo": links.shimogamo.map,
+        "insta-shimogamo": links.shimogamo.instagram,
+        "map-giihan": links.giihan.map,
+        "insta-giihan": links.giihan.instagram
+      };
+      Object.entries(idMap).forEach(([id, url]) => {
+        const el = document.getElementById(id);
+        if (el) el.href = url;
+      });
+    }
+
+    /* ==========================================================
+       スライダー
+    ========================================================== */
+    function initSlider() {
+      const slides = document.querySelectorAll('.slide');
+      const dots = document.querySelectorAll('.slider-dot');
+      let current = 0;
+      let timer;
+
+      function goTo(index) {
+        slides[current].classList.remove('is-active');
+        slides[current].setAttribute('aria-hidden', 'true');
+        dots[current].classList.remove('is-active');
+        dots[current].setAttribute('aria-selected', 'false');
+
+        current = (index + slides.length) % slides.length;
+
+        slides[current].classList.add('is-active');
+        slides[current].setAttribute('aria-hidden', 'false');
+        dots[current].classList.add('is-active');
+        dots[current].setAttribute('aria-selected', 'true');
+      }
+
+      function startAuto() { timer = setInterval(() => goTo(current + 1), 4500); }
+      function stopAuto() { clearInterval(timer); }
+
+      dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          stopAuto();
+          goTo(parseInt(dot.dataset.index, 10));
+          startAuto();
+        });
+      });
+
+      startAuto();
+    }
+
+    /* ==========================================================
+       初期化
+    ========================================================== */
+    document.addEventListener('DOMContentLoaded', () => {
+      setLinks();
+      initSlider();
+      fetchAndRenderWeather(); // 気象庁APIから天気を取得
+    });
+  </script>
+
+</body>
+
+</html>
