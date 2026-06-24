@@ -897,13 +897,24 @@
        JavaScript
   ============================================================ -->
   <script>
-    /* ==========================================================
-       ★ 旅行日程（ここを書き換えれば天気表示日が自動更新されます）
+     /* ==========================================================
+       ★ 旅行日程（今日と明日の日付を自動取得。ここを書き換えれば天気表示日が自動更新されます）
        フォーマット：'YYYY-MM-DD'
     ========================================================== */
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+
+    function toYMD(date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, '0');
+      const d = String(date.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    }
+
     const tripDates = [
-      '2026-06-21',
-      '2026-06-22'
+      toYMD(today),
+      toYMD(tomorrow)
     ];
 
     /* ==========================================================
