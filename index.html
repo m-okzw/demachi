@@ -19,11 +19,13 @@
        CSS カスタムプロパティ（カラー・フォント定義）
     ============================================================ */
     :root {
-      --deep-green: #1D454D;
+      /* --deep-green: #1D454D; */
+      --deep-green: #386467;
       --beige: #C8A087;
       --terracotta: #C15023;
       --white: #FFFFFF;
       --light-bg: #FAF8F5;
+      --body-text: #484543;
 
       --font-heading: 'Zen Kaku Gothic New', sans-serif;
       --font-body: 'Noto Sans JP', sans-serif;
@@ -47,7 +49,7 @@
 
     body {
       background: var(--white);
-      color: var(--deep-green);
+      color: var(--body-text);
       font-family: var(--font-body);
       font-weight: 400;
       letter-spacing: 0.04em;
@@ -73,7 +75,6 @@
     .fv {
       position: relative;
       width: 100%;
-      background: #111;
       overflow: hidden;
       aspect-ratio: 4 / 5;
       /* モバイル */
@@ -183,7 +184,7 @@
       font-family: var(--font-en);
       font-size: 13px;
       letter-spacing: 0.2em;
-      color: var(--beige);
+      color: var(--deep-green);
       display: block;
       margin-bottom: 6px;
       text-transform: uppercase;
@@ -216,10 +217,10 @@
     /* 各天気カード */
     .weather-card {
       background: var(--white);
-      border: 1px solid var(--deep-green);
+      border: 1px solid var(--body-text);
       padding: 24px;
       /* 紙を重ねたような影（他カードと統一） */
-      box-shadow: 3px 4px 0 rgba(29, 69, 77, 0.06), 6px 7px 0 rgba(29, 69, 77, 0.03);
+      /* box-shadow: 3px 4px 0 rgba(29, 69, 77, 0.06), 6px 7px 0 rgba(29, 69, 77, 0.03); */
     }
 
     /* 日付ラベル */
@@ -227,7 +228,7 @@
       font-family: var(--font-en);
       font-size: 11px;
       letter-spacing: 0.18em;
-      color: var(--beige);
+      color: var(--terracotta);
       display: block;
       margin-bottom: 14px;
     }
@@ -258,7 +259,7 @@
       font-size: 15px;
       font-weight: 500;
       letter-spacing: 0.06em;
-      color: var(--deep-green);
+      color: var(--body-text);
     }
 
     /* 気温 */
@@ -312,7 +313,7 @@
     .wc-comment {
       font-size: 12px;
       line-height: 1.65;
-      color: var(--deep-green);
+      color: var(--body-text);
       border-top: 1px solid rgba(29, 69, 77, 0.1);
       padding-top: 12px;
       letter-spacing: 0.04em;
@@ -341,7 +342,7 @@
     ============================================================ */
     .intro {
       text-align: center;
-      padding: 72px 24px 64px;
+      padding: 72px 24px 34px;
     }
 
     .intro-en {
@@ -356,10 +357,10 @@
     .intro-text {
       font-family: var(--font-heading);
       font-weight: 500;
-      font-size: clamp(17px, 4.5vw, 21px);
+      font-size: clamp(14px, 3vw, 21px);
       letter-spacing: 0.06em;
       line-height: 2.1;
-      color: var(--deep-green);
+      color: var(--body-text);
     }
 
     /* 区切り線 */
@@ -379,20 +380,20 @@
 
     .section-header {
       text-align: center;
-      margin-bottom: 48px;
+      margin-bottom: 32px;
     }
 
     .section-label {
       font-family: var(--font-en);
-      font-size: 28px;
-      letter-spacing: 0.12em;
+      font-size: 34px;
+      letter-spacing: 0.08em;
       color: var(--deep-green);
       display: block;
       margin-bottom: -13px;
     }
 
     .section-label-ja {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--beige);
       letter-spacing: 0.15em;
     }
@@ -418,12 +419,12 @@
        スポットカード
     ============================================================ */
     .card {
-      border: 1px solid var(--deep-green);
+      border: 1px solid var(--body-text);
       border-radius: 0;
       background: var(--white);
       overflow: hidden;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 3px 4px 0 rgba(29, 69, 77, 0.06), 6px 7px 0 rgba(29, 69, 77, 0.03);
+      /* box-shadow: 3px 4px 0 rgba(29, 69, 77, 0.06), 6px 7px 0 rgba(29, 69, 77, 0.03); */
     }
 
     .card:hover {
@@ -433,8 +434,8 @@
 
     .card-category {
       font-family: var(--font-heading);
-      font-size: 12px;
-      letter-spacing: 0.1em;
+      font-size: 10px;
+      letter-spacing: 0.25em;
       color: var(--white);
       background: var(--deep-green);
       display: inline-block;
@@ -447,7 +448,7 @@
       font-weight: 500;
       font-size: clamp(18px, 4vw, 22px);
       letter-spacing: 0.05em;
-      color: var(--deep-green);
+      color: var(--body-text);
       padding: 10px 20px 16px;
     }
 
@@ -477,7 +478,7 @@
     .card-desc {
       font-size: 13.5px;
       line-height: 1.85;
-      color: #3a6068;
+      color: var(--body-text);
       margin-bottom: 16px;
     }
 
@@ -500,7 +501,7 @@
     .card-comment {
       font-size: 13px;
       line-height: 1.8;
-      color: var(--deep-green);
+      color: var(--body-text);
       background: var(--light-bg);
       border-left: 2px solid var(--beige);
       padding: 10px 14px;
@@ -638,7 +639,6 @@
   <div class="weather-section" aria-label="京都の天気予報">
     <div class="weather-header">
       <span class="weather-title-en">Kyoto Weather</span>
-      <span class="weather-title-ja">京都の天気</span>
     </div>
     <!-- JS でカードを挿入 -->
     <div id="weatherContainer">
@@ -654,8 +654,8 @@
     <p class="intro-en">Demachiyanagi Stroll</p>
     <div class="divider" style="margin-bottom:28px;"></div>
     <p class="intro-text">
-      一旦出町柳周辺で気になってる場所を集めてみた！<br>
-      ゆるっとお出かけ楽しみ〜！
+      出町柳周辺で気になってる場所を集めてみた！<br>
+      ゆるっとお出かけ楽しみ〜
     </p>
   </div>
 
@@ -665,7 +665,7 @@
   ============================================================ -->
   <section class="section" aria-labelledby="sec-cafe">
     <div class="section-header">
-      <span class="section-label" id="sec-cafe">Cafe</span>
+      <span class="section-label" id="sec-cafe">CAFE</span>
       <span class="section-label-ja">カフェ</span>
     </div>
     <div class="cards">
@@ -735,7 +735,7 @@
   ============================================================ -->
   <section class="section" style="background: var(--light-bg);" aria-labelledby="sec-souvenir">
     <div class="section-header">
-      <span class="section-label" id="sec-souvenir">Souvenir</span>
+      <span class="section-label" id="sec-souvenir">SOUVENIR</span>
       <span class="section-label-ja">おみやげ</span>
     </div>
     <div class="cards">
@@ -776,7 +776,7 @@
   ============================================================ -->
   <section class="section" aria-labelledby="sec-stroll">
     <div class="section-header">
-      <span class="section-label" id="sec-stroll">Stroll</span>
+      <span class="section-label" id="sec-stroll">STROLL</span>
       <span class="section-label-ja">さんぽ</span>
     </div>
     <div class="cards cards-double">
@@ -839,7 +839,7 @@
   ============================================================ -->
   <section class="section" style="background: var(--light-bg);" aria-labelledby="sec-omake">
     <div class="section-header">
-      <span class="section-label" id="sec-omake">Omake</span>
+      <span class="section-label" id="sec-omake">OMAKE</span>
       <span class="section-label-ja">おまけ</span>
     </div>
     <div class="cards">
@@ -889,7 +889,7 @@
        JavaScript
   ============================================================ -->
   <script>
-     /* ==========================================================
+    /* ==========================================================
        ★ 旅行日程（今日と明日の日付を自動取得。ここを書き換えれば天気表示日が自動更新されます）
        フォーマット：'YYYY-MM-DD'
     ========================================================== */
